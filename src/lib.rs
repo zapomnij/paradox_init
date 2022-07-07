@@ -21,7 +21,7 @@ struct InitScript {
     stop: Vec<String>,
 }
 
-pub fn run_service(json: &str) -> Result<String, String> {
+pub fn run_service(json: &str, mut table: &mut Vec<String>) -> Result<String, String> {
     let parsed: InitScript = match serde_json::from_str(&json) {
         Ok(o) => o,
         Err(e) => return Err(format!("Failed to parse JSON: {e}")),
@@ -37,7 +37,7 @@ pub fn run_service(json: &str) -> Result<String, String> {
             Err(e) => return Err(format!("failed to get json of dependency '{dep}': {e}")),
         };
 
-        match run_service(content.as_str()) {
+        match run_service(content.as_str(), &mut table) {
             Ok(e) => {
                 if !e.eq("init_svc_running_currently") {
                     log::done(&format!("{e} has started"));
@@ -82,6 +82,8 @@ pub fn run_service(json: &str) -> Result<String, String> {
         return Err(format!("invalid init script type: {}", parsed.script_type));
     };
 
+    table.push(parsed.name.clone());
+
     Ok(parsed.name)
 }
 
@@ -116,3 +118,66 @@ pub fn infinite_loop() {
         thread::sleep(time::Duration::from_secs(5));
     }
 }
+
+pub fn stop_svc(name: String, table: &mut Vec<String>) -> Result<(), String> {
+    let mut item: usize = 0;
+    for (i, el) in table.iter().enumerate() {
+        if el.eq(&name.as_str()) {
+            item = i;
+            break;
+        }
+    }
+    if item == 0 {
+        return Err(format!("{name} is not running"));
+    }
+
+    let runpathbuf = format!("/run/init/{}", &name);
+    let runpath = Path::new(runpathbuf.as_str());
+    {
+        let content = match fs::read_to_string(&runpath) {
+            Ok(o) => o,
+            Err(e) => return Err(format!("Failed to read from file {}: {e}", runpath.display())),
+        };
+
+        if (content.eq("daemon")) || (content.eq("script")) {
+            let content2;
+            
+            if name.eq("endscript") {
+                match fs::read_to_string(Path::new("/etc/endscript.json")) {
+                    Ok(o) => content2 = o,
+                    Err(e) => return Err(format!("Failed to read from /etc/endscript.json: {e}")),
+                }
+            } else {
+                match fs::read_to_string(Path::new(format!("{}/{name}.json", INIT_DIR).as_str())) {
+                    Ok(o) => content2 = o,
+                    Err(e) => return Err(format!("Failed to read from {INIT_DIR}/{name}.json: {e}")),
+                }
+            } 
+
+            let parsed: InitScript = serde_json::from_str(content2.as_str()).unwrap();
+
+            for cmd in &parsed.stop {
+                match run_cmd(&cmd.clone()) {
+                    Ok(o) => {
+                        if !o {
+                            return Err(format!("Failed to execute command '{cmd}': command returned non-zero exit status"));
+                        }
+                        
+                    },
+                    Err(e) => return Err(format!("Failed to execute command '{cmd}': {e}")),
+                }
+            }
+        }
+
+        match fs::remove_file(&runpath) {
+            Err(_) => (),
+            Ok(_) => ()
+        }
+    }
+
+    table.remove(item);
+    
+    Ok(())
+}
+
+pub mod halt;

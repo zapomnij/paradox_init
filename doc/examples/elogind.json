@@ -1,0 +1,14 @@
+{
+    "name": "elogind",
+    "script_type": "daemon",
+    "depends": [
+        "dbus"
+    ],
+
+    "start": [
+        "exec elogind &"
+    ],
+    "stop": [
+        "pkill elogind"
+    ]
+}

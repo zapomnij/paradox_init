@@ -1,0 +1,14 @@
+{
+    "name": "io",
+    "script_type": "oneshot",
+    "depends": [
+        "mounts"
+    ],
+
+    "start": [
+        "ln -sf /proc/self/fd/0 /dev/stdin",
+        "ln -sf /proc/self/fd/1 /dev/stdout",
+        "ln -sf /proc/self/fd/2 /dev/stderr"
+    ],
+    "stop": []
+}

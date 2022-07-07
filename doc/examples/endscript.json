@@ -1,7 +1,9 @@
 {
-    "name": "agetty",
+    "name": "endscript",
     "script_type": "daemon",
-    "depends": [],
+    "depends": [
+        "io"
+    ],
 
     "start": [
         "exec sh -c 'while true; do agetty --noclear tty1 38400 linux; done' &",

@@ -118,7 +118,7 @@ fn main() {
 
                     match operation.operate(&mut running) {
                         Ok(_) => (),
-                        Err(e) => log::error(&"Failed to finish shutdown operation".to_string()),
+                        Err(_) => log::error(&"Failed to finish shutdown operation".to_string()),
                     }
                 }
             }

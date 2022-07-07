@@ -6,8 +6,8 @@
     ],
 
     "start": [
-	"dbus-uuidgen --ensure=/etc/machine-id || exit 0",
-	"install -dm775 /run/dbus",
+	    "dbus-uuidgen --ensure=/etc/machine-id || exit 0",
+	    "install -dm775 /run/dbus",
         "dbus-daemon --system"
     ],
     "stop": [

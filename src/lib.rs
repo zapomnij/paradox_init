@@ -85,7 +85,7 @@ pub fn run_service(json: &str) -> Result<String, String> {
     Ok(parsed.name)
 }
 
-fn run_cmd(command: &String) -> Result<bool, String> {
+pub fn run_cmd(command: &String) -> Result<bool, String> {
     let ret = match Command::new("sh").args(["-c", &command]).status() {
         Ok(o) => o,
         Err(e) => return Err(format!("failed to execute command '{}': {e}", &command)),
@@ -116,5 +116,3 @@ pub fn infinite_loop() {
         thread::sleep(time::Duration::from_secs(5));
     }
 }
-
-pub mod fifo;

@@ -46,10 +46,15 @@ fn main() {
         log::done(&format!("{name} has started"));
     }
 
-    unsafe {
-        let buf = "/run/init/initctl".as_ptr();
-        if fifo::mkfifo(buf, 420) == -1 {
-            log::error(&format!("Failed to create fifo file. Starting infinite loop"));
+    match run_cmd(&"mkfifo /run/init/initctl".to_string()) {
+        Ok(o) => {
+            if !o {
+                log::error(&"failed to create initctl. Starting infinite loop".to_string());
+                infinite_loop();
+            }
+        }
+        Err(e) => {
+            log::error(&format!("failed to create initctl: {e}. Starting infinite loop"));
             infinite_loop();
         }
     }

@@ -1,0 +1,12 @@
+{
+    "name": "dbus",
+    "script_type": "daemon",
+    "depends": [],
+    "start": [
+        "setsid dbus-daemon --system"
+    ],
+    "stop": [
+        "killall dbus-daemon",
+        "rm /run/dbus/system_bus_socket"
+    ]
+}

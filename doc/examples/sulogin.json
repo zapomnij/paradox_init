@@ -1,0 +1,10 @@
+{
+    "name": "sulogin",
+    "script_type": "oneshot",
+    "depends": [],
+    "start": [
+        "exec /bin/sh",
+        "reboot"
+    ],
+    "stop": []
+}

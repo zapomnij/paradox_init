@@ -1,0 +1,24 @@
+{
+    "name": "mounts",
+    "script_type": "oneshot",
+    "depends": [
+        "mount-rw"
+    ],
+
+    "start": [
+        "mkdir -p /proc",
+        "mount -t proc proc /proc",
+        
+        "mkdir -p /sys",
+        "mount -t sysfs sysfs /sys",
+
+        "mkdir -p /dev",
+        "mount -t devtmpfs devtmpfs /dev",
+
+        "mkdir -p /run",
+        "mount -t tmpfs tmpfs /run",
+
+        "if [ -f /etc/sysconfig/mounts ]; then . /etc/sysconfig/mounts; if [ \"${MOUNT_TMPFS}\" = \"true\" ]; then mkdir -p /tmp; mount -t tmpfs tmpfs /tmp; fi; fi"
+    ],
+    "stop": []
+}

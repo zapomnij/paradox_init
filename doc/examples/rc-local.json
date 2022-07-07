@@ -1,0 +1,11 @@
+{
+    "name": "rc-local",
+    "script_type": "oneshot",
+    "depends": [
+        "everything"
+    ],
+    "start": [
+        "if [ -f /etc/rc.local ]; then /etc/rc.local; fi"
+    ],
+    "stop": []
+}

@@ -1,0 +1,11 @@
+{
+    "name": "neofetch",
+    "script_type": "oneshot",
+    "depends": [
+        "mounts"
+    ],
+    "start": [
+        "neofetch"
+    ],
+    "stop": []
+}

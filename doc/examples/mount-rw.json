@@ -1,0 +1,12 @@
+{
+    "name": "mount-rw",
+    "script_type": "script",
+    "depends": [],
+
+    "start": [
+        "mount -o remount,rw /"
+    ],
+    "stop": [
+        "mount -o remount,ro /"
+    ]
+}

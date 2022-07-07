@@ -1,9 +1,7 @@
 {
     "name": "mounts",
     "script_type": "oneshot",
-    "depends": [
-        "fsck"
-    ],
+    "depends": [],
 
     "start": [
         "if !mountpoint /proc > /dev/null 2>&1; then mount -n -t proc proc /proc; fi",

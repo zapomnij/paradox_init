@@ -120,14 +120,14 @@ pub fn infinite_loop() {
 }
 
 pub fn stop_svc(name: String, table: &mut Vec<String>) -> Result<(), String> {
-    let mut item: usize = table.len();
+    let mut item: Option<usize> = None;
     for (i, el) in table.iter().enumerate() {
         if el.eq(&name.as_str()) {
-            item = i;
+            item = Some(i);
             break;
         }
     }
-    if item == table.len() {
+    if item == None {
         return Err(format!("{name} is not running"));
     }
 
@@ -175,7 +175,7 @@ pub fn stop_svc(name: String, table: &mut Vec<String>) -> Result<(), String> {
         }
     }
 
-    table.remove(item);
+    table.remove(item.unwrap());
     
     Ok(())
 }

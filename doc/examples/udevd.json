@@ -1,0 +1,17 @@
+{
+    "name": "udevd",
+    "script_type": "daemon",
+    "depends": [
+        "mounts"
+    ],
+
+    "start": [
+        "udevd --daemon",
+        "udevadm control --start",
+        "udevadm trigger"
+    ],
+    "stop": [
+        "udevadm control --stop",
+        "pkill udevd"
+    ]
+}

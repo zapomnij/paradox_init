@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::{BufReader, BufRead};
+use std::ops::Add;
 use std::{fs, path::Path};
 use paradox_init::*;
 
@@ -95,7 +96,7 @@ fn main() {
                         Err(e) => log::error(&format!("failed to start service: {e}")),
                     }
                 }
-                if split.get(0).unwrap_or(&"").to_string().eq("init_operate_halting") {
+                else if split.get(0).unwrap_or(&"").to_string().eq("init_operate_halting") {
                     if split.get(1) == None {
                         log::error(&"Invalid command".to_string());
                         continue;

@@ -12,13 +12,16 @@ pub enum Halt {
 
 impl Halt {
     pub fn operate(self, mut table: &mut Vec<String>) -> Result<(), ()> {
-        let mut index: isize = table.len() as isize - 1;
-        while index != -1 {
-            match stop_svc(table.get(index as usize).unwrap_or(&"".to_string()).to_string(), &mut table) {
-                Ok(_) => log::done(&format!("Stopped {}", table.get(index as usize).unwrap_or(&"".to_string()))),
-                Err(e) => log::error(&format!("Failed to stop {}: {e}", table.get(index as usize).unwrap_or(&"".to_string()))),
+        let mut index: usize = table.len() - 1;
+        loop {
+            match stop_svc(table.get(index).unwrap_or(&"".to_string()).to_string(), &mut table) {
+                Ok(_) => log::done(&format!("Stopped {}", table.get(index).unwrap_or(&"".to_string()))),
+                Err(e) => log::error(&format!("Failed to stop {}: {e}", table.get(index).unwrap_or(&"".to_string()))),
             }
 
+            if index == 0 {
+                break;
+            }
             index -= 1;
         }
         

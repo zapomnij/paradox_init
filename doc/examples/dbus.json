@@ -1,12 +1,17 @@
 {
     "name": "dbus",
     "script_type": "daemon",
-    "depends": [],
+    "depends": [
+    	"machine-id"
+    ],
+
     "start": [
-        "setsid dbus-daemon --system"
+	"dbus-uuidgen --ensure=/etc/machine-id || exit 0",
+	"install -dm775 /run/dbus",
+        "dbus-daemon --system"
     ],
     "stop": [
-        "killall dbus-daemon",
+        "pkill dbus-daemon",
         "rm /run/dbus/system_bus_socket"
     ]
 }

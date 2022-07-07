@@ -1,24 +1,19 @@
 {
     "name": "mounts",
     "script_type": "oneshot",
-    "depends": [
-        "mount-rw"
-    ],
+    "depends": [],
 
     "start": [
-        "mkdir -p /proc",
-        "mount -t proc proc /proc",
+        "if !mountpoint /proc > /dev/null 2>&1; then mount -t proc proc /proc; fi",
         
-        "mkdir -p /sys",
-        "mount -t sysfs sysfs /sys",
+        "if !mountpoint /sys > /dev/null 2>&1; then mount -t sysfs sysfs /sys; fi",
 
-        "mkdir -p /dev",
-        "mount -t devtmpfs devtmpfs /dev",
+        "if !mountpoint /dev > /dev/null 2>&1; then mount -t devtmpfs devtmpfs /dev; fi",
 
-        "mkdir -p /run",
-        "mount -t tmpfs tmpfs /run",
+        "if !mountpoint /run > /dev/null 2>&1; then mount -t tmpfs tmpfs /run; fi",
+	"mkdir -p /run/init || exit 0",
 
-        "if [ -f /etc/sysconfig/mounts ]; then . /etc/sysconfig/mounts; if [ \"${MOUNT_TMPFS}\" = \"true\" ]; then mkdir -p /tmp; mount -t tmpfs tmpfs /tmp; fi; fi"
+        "if [ -f /etc/sysconfig/mounts ]; then . /etc/sysconfig/mounts; if [ \"${MOUNT_TMPFS}\" = \"true\" ]; then mount -t tmpfs tmpfs /tmp; fi; fi"
     ],
     "stop": []
 }

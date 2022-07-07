@@ -121,6 +121,11 @@ fn main() {
                         Err(_) => log::error(&"Failed to finish shutdown operation".to_string()),
                     }
                 }
+                else if split.get(0).unwrap_or(&"").to_string().eq("init_get_list") {
+                    for i in &running {
+                        println!("{i}");
+                    }
+                }
             }
         }     
     }

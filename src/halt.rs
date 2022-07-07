@@ -15,8 +15,8 @@ impl Halt {
         let mut index: usize = table.len() - 1;
         loop {
             match stop_svc(table.get(index).unwrap_or(&"".to_string()).to_string(), &mut table) {
-                Ok(_) => log::done(&format!("Stopped {}", table.get(index).unwrap_or(&"".to_string()))),
-                Err(e) => log::error(&format!("Failed to stop {}: {e}", table.get(index).unwrap_or(&"".to_string()))),
+                Ok(_) => log::done(&format!("Stopped {}", table.get(index).unwrap_or(&"".to_string()).to_string())),
+                Err(e) => log::error(&format!("Failed to stop {}: {e}", table.get(index).unwrap_or(&"".to_string()).to_string())),
             }
 
             if index == 0 {

@@ -1,19 +1,25 @@
 {
     "name": "mounts",
     "script_type": "oneshot",
-    "depends": [],
+    "depends": [
+        "fsck"
+    ],
 
     "start": [
-        "if !mountpoint /proc > /dev/null 2>&1; then mount -t proc proc /proc; fi",
+        "if !mountpoint /proc > /dev/null 2>&1; then mount -n -t proc proc /proc; fi",
         
-        "if !mountpoint /sys > /dev/null 2>&1; then mount -t sysfs sysfs /sys; fi",
+        "if !mountpoint /sys > /dev/null 2>&1; then mount -n -t sysfs sysfs /sys; fi",
 
-        "if !mountpoint /dev > /dev/null 2>&1; then mount -t devtmpfs devtmpfs /dev; fi",
+        "if !mountpoint /dev > /dev/null 2>&1; then mount -n -t devtmpfs devtmpfs /dev; fi",
 
-        "if !mountpoint /run > /dev/null 2>&1; then mount -t tmpfs tmpfs /run; fi",
-	"mkdir -p /run/init || exit 0",
+        "if !mountpoint /run > /dev/null 2>&1; then mount -n -t tmpfs tmpfs /run; fi",
+	    "mkdir -p /run/init || exit 0",
 
-        "if [ -f /etc/sysconfig/mounts ]; then . /etc/sysconfig/mounts; if [ \"${MOUNT_TMPFS}\" = \"true\" ]; then mount -t tmpfs tmpfs /tmp; fi; fi"
+        "if !mountpoint /dev/pts > /dev/null 2>&1; then mkdir -p /dev/pts; mount -n -t devpts devpts /dev/pts; fi",
+
+        "if [ -f /etc/sysconfig/mounts ]; then . /etc/sysconfig/mounts; if [ \"${MOUNT_TMPFS}\" = \"true\" ]; then mount -t tmpfs tmpfs /tmp; fi; fi",
+
+        "if [ -f /etc/fstab ]; then mount -a; fi"
     ],
     "stop": []
 }

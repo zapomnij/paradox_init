@@ -1,10 +1,10 @@
 {
-    "name": "sulogin",
+    "name": "fsck",
     "script_type": "oneshot",
     "depends": [],
+
     "start": [
-        "exec /bin/sh",
-        "reboot"
+        "fsck -pf || exit 0"
     ],
     "stop": []
 }

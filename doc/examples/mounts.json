@@ -1,6 +1,6 @@
 {
     "name": "mounts",
-    "script_type": "oneshot",
+    "script_type": "script",
     "depends": [],
 
     "start": [
@@ -18,5 +18,7 @@
 
         "if [ -f /etc/fstab ]; then mount -a; fi"
     ],
-    "stop": []
+    "stop": [
+        "if [ -f /etc/fstab ]; then umount -a || exit 0; fi"
+    ]
 }

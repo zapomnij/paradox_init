@@ -120,14 +120,14 @@ pub fn infinite_loop() {
 }
 
 pub fn stop_svc(name: String, table: &mut Vec<String>) -> Result<(), String> {
-    let mut item: usize = 0;
+    let mut item: usize = table.len();
     for (i, el) in table.iter().enumerate() {
         if el.eq(&name.as_str()) {
             item = i;
             break;
         }
     }
-    if item == 0 {
+    if item == table.len() {
         return Err(format!("{name} is not running"));
     }
 

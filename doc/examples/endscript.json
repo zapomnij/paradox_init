@@ -1,0 +1,17 @@
+{
+    "name": "agetty",
+    "script_type": "daemon",
+    "depends": [],
+
+    "start": [
+        "setsid agetty tty1 38400 linux",
+        "setsid agetty tty2 38400 linux",
+        "setsid agetty tty3 38400 linux",
+        "setsid agetty tty4 38400 linux",
+        "setsid agetty tty5 38400 linux",
+        "setsid agetty tty6 38400 linux"
+    ],
+    "stop": [
+        "pkill agetty"
+    ]
+}

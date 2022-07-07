@@ -59,6 +59,16 @@ fn main() {
         }
     }
 
+    match fs::read_to_string(Path::new("/etc/endscript.json")) {
+        Ok(o) => {
+            match run_service(o.as_str()) {
+                Ok(_) => (),
+                Err(e) => log::error(&format!("failed to execute init endscript: {e}")),
+            }
+        }
+        Err(e) => log::error(&format!("failed to run init endscript: {e}")),
+    }
+
     loop {
         match fs::read_to_string(Path::new("/run/init/initctl")) {
             Err(e) => log::error(&format!("Failed to read line from initctl: {e}")),

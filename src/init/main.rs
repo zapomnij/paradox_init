@@ -4,6 +4,28 @@ use std::{fs, path::Path};
 use paradox_init::*;
 
 fn main() {  
+    match run_cmd(&"mount -t tmpfs tmpfs /run".to_string()) {
+        Err(e) => {
+            log::error(&format!("failed to mount /run: {e}"));
+        }
+        Ok(o) => {
+            if !o {
+                log::error(&format!("mount command returned non-zero exit status. Failed to mount /run"));
+            } else {
+                log::done(&"/run has been mounted".to_string());
+            }
+        }
+    }
+
+    match fs::create_dir_all(Path::new("/run/init")) {
+        Ok(_) => log::done(&"created init directory /run/init".to_string()),
+        Err(e) => {
+            log::error(&format!("Failed to create directory '/run/init': {e}"));
+            log::error(&"cannot continue".to_string());
+            infinite_loop()
+        }
+    }
+
     let init_file: String = format!("{INIT_DIR}/../init.list");
 
     let mut running: Vec<String> = Vec::new();

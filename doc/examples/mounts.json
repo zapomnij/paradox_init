@@ -10,8 +10,6 @@
 
         "if !mountpoint /dev > /dev/null 2>&1; then mount -n -t devtmpfs devtmpfs /dev; fi",
 
-        "if !mountpoint /run > /dev/null 2>&1; then mount -n -t tmpfs tmpfs /run; fi; mkdir -p /run/init",
-
         "if !mountpoint /dev/pts > /dev/null 2>&1; then mkdir -p /dev/pts; mount -n -t devpts devpts /dev/pts; fi",
 
         "if [ -f /etc/sysconfig/mounts ]; then . /etc/sysconfig/mounts; if [ \"${MOUNT_TMPFS}\" = \"true\" ]; then mount -t tmpfs tmpfs /tmp; fi; fi",

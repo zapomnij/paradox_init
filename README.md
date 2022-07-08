@@ -1,5 +1,5 @@
 # paradox_init
-Init system for paradox operating system.
+Dependency based init system written in Rust.
 
 ### Crates used for project:
 - serde_json (https://github.com/serde-rs/json)

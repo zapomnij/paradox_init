@@ -2,7 +2,7 @@
     "name": "dbus",
     "script_type": "daemon",
     "depends": [
-    	"machine-id"
+    	"mounts"
     ],
 
     "start": [

@@ -21,7 +21,7 @@ fn main() {
                 lib::log::error(&format!("Failed to start service {}: {e}", args[2]));
                 exit(1);
             }
-            Ok(_) => lib::log::done(&format!("{} has started", args[2])),
+            Ok(_) => (),
         }
     } else if args[1].eq("stop") {
         if args.len() < 3 {
@@ -34,7 +34,7 @@ fn main() {
                 lib::log::error(&format!("Failed to stop service {}: {e}", args[2]));
                 exit(1);
             }
-            Ok(_) => lib::log::done(&format!("{} has stopped", args[2])),
+            Ok(_) => (),
         }
     } else if args[1].eq("restart") {
         if args.len() < 3 {
@@ -47,7 +47,7 @@ fn main() {
                 lib::log::error(&format!("Failed to stop service {}: {e}", args[2]));
                 exit(1);
             }
-            Ok(_) => lib::log::done(&format!("{} has stopped", args[2])),
+            Ok(_) => (),
         }
 
         match lib::Command::StartService(args[2].clone()).operate() {
@@ -55,7 +55,7 @@ fn main() {
                 lib::log::error(&format!("Failed to start service {}: {e}", args[2]));
                 exit(1);
             }
-            Ok(_) => lib::log::done(&format!("{} has started", args[2])),
+            Ok(_) => (),
         }
     } else if args[1].eq("enable") {
         if args.len() < 3 {

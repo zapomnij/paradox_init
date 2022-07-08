@@ -6,7 +6,7 @@
     ],
 
     "start": [
-        "exec elogind &"
+        "exec /lib/elogind/elogind &"
     ],
     "stop": [
         "pkill elogind"

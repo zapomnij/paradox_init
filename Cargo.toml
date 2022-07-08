@@ -12,3 +12,19 @@ serde_json = "1.0"
 [[bin]]
 name = "init"
 path = "src/init/main.rs"
+
+[[bin]]
+name = "initctl"
+path = "src/initctl/main.rs"
+
+[[bin]]
+name = "reboot"
+path = "src/reboot.rs"
+
+[[bin]]
+name = "poweroff"
+path = "src/poweroff.rs"
+
+[[bin]]
+name = "halt"
+path = "src/halt.rs"

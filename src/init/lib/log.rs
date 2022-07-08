@@ -1,11 +1,11 @@
-use crate::{RED, WHITE, GREEN, RESET};
+use crate::lib::{RED, WHITE, GREEN, RESET};
 
 pub fn done(message: &String) {
     println!("{GREEN}==>{WHITE} {message}{RESET}");
 }
 
 pub fn error(message: &String) {
-    eprintln!("{GREEN}==>{WHITE} {message}{RESET}");
+    eprintln!("{RED}==>{WHITE} {message}{RESET}");
 }
 
 pub fn init_panic(message: &String, exit: i32) {

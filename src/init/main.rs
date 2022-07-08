@@ -1,9 +1,16 @@
 use std::fs::File;
 use std::io::{BufReader, BufRead};
 use std::{fs, path::Path};
-use paradox_init::*;
+
+pub mod lib;
+use lib::*;
 
 fn main() {  
+    if std::process::id() != 1 {
+        log::error(&"Init have to be executed as PID 1".to_string());
+        std::process::exit(1);
+    }
+
     match run_cmd(&"mount -t tmpfs tmpfs /run".to_string()) {
         Err(e) => {
             log::error(&format!("failed to mount /run: {e}"));
@@ -115,6 +122,17 @@ fn main() {
                     match run_service(&json, &mut running) {
                         Ok(o) => log::done(&format!("{o} has started")),
                         Err(e) => log::error(&format!("failed to start service: {e}")),
+                    }
+                }
+                else if split.get(0).unwrap_or(&"").to_string().eq("init_stop_service") {
+                    if split.get(1) == None {
+                        log::error(&"Invalid command".to_string());
+                        continue;
+                    }
+
+                    match stop_svc(split.get(1).unwrap().to_string(), &mut running) {
+                        Ok(_) => log::done(&format!("{} has been stopped", split[1].clone())),
+                        Err(e) => log::error(&format!("{} couldn't have been stopped: {e}", split[1].clone()))
                     }
                 }
                 else if split.get(0).unwrap_or(&"").to_string().eq("init_operate_halting") {

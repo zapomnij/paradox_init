@@ -12,6 +12,8 @@
 
         "if !mountpoint /dev/pts > /dev/null 2>&1; then mkdir -p /dev/pts; mount -n -t devpts devpts /dev/pts; fi",
 
+        "if !mountpoint /dev/shm > /dev/null 2>&1; then mkdir -p /dev/shm; mount -n -t tmpfs shm /dev/shm; chmod 1777 /dev/shm; fi",
+
         "if [ -f /etc/sysconfig/mounts ]; then . /etc/sysconfig/mounts; if [ \"${MOUNT_TMPFS}\" = \"true\" ]; then mount -t tmpfs tmpfs /tmp; chmod 1777 /tmp; fi; fi",
 
         "if [ -f /etc/fstab ]; then mount -a; fi"

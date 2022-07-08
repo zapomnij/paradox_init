@@ -2,6 +2,8 @@
     "name": "elogind",
     "script_type": "daemon",
     "depends": [
+        "utmp",
+        "cgroups",
         "dbus"
     ],
 

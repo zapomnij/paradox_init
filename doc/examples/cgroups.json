@@ -1,0 +1,14 @@
+{
+    "name": "cgroups",
+    "script_type": "oneshot",
+    "depends": [
+        "mounts"
+    ],
+
+    "start": [
+        "mkdir -p /sys/fs/cgroup; mount -n -t tmpfs cgroup_root /sys/fs/cgroup || exit 0",
+        "cd /sys/fs/cgroup && mkdir -p cpu unified cpuset cpuacct blkio memory devices freezer net_cls perf_event net_prio hugetlb pids rdma misc",
+        "for item in cpu unified cpuset cpuacct blkio memory devices freezer net_cls perf_event net_prio hugetlb pids rdma misc; do mount -n -t cgroup ${item} /sys/fs/cgroup/${item} || continue; done"
+    ],
+    "stop": []
+}

@@ -1,0 +1,14 @@
+{
+    "name": "utmp",
+    "script_type": "oneshot",
+    "depends": [
+        "mounts",
+        "mount-rw"
+    ],
+
+    "start": [
+        "mkdir -p /var/run",
+        "echo > /var/run/utmp"
+    ],
+    "stop": []
+}
